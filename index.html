@@ -45,18 +45,39 @@
   </style>
 </head>
 <body>
-  <h1>Bingo - Casamento Belsa 💍</h1>
+  <h1>Bingo - Sandro e Belmira 💍</h1>
   <div id="bingo-board"></div>
   <p id="message"></p>
 
   <script>
-    const frasesCasamento = [
-      "Convidados pedem mais um beijo", "Alguem grita Viva os noivos!", "Padrinhos dancam juntos", "Convidados ", " ",
-      " ", " ", " ", " ", " ",
-      " ", " ", " ", " ", " ",
-      " ", " ", " ", " ", " ",
-      " ", " ", " ", " ", " "
+    const frasesOriginais = [
+      "Convidados pedem 'mais um beijo'",
+      "Alguém grita 'Viva os noivos!'",
+      "Padrinhos dançam coreografia",
+      "Convidado tira selfie com os noivos",
+      "Alguém tropeça na pista de dança",
+      "DJ toca um clássico dos anos 2000",
+      "O buquê é jogado",
+      "Os noivos se beijam",
+      "Os noivos choram",
+      "O casal agradece todos os presentes",
+      "Os pais se emocionam",
+      "Alguém faz discurso com lágrimas nos olhos",
+      "Irmãos da noiva choram"
     ];
+
+    function gerarFrasesParaBingo(originais, total) {
+      const frases = [];
+      while (frases.length < total) {
+        const random = originais[Math.floor(Math.random() * originais.length)];
+        if (frases.filter(f => f === random).length < 2) { // evita repetição demais 
+          frases.push(random);
+        }
+      }
+      return frases;
+    }
+
+    const frasesCasamento = gerarFrasesParaBingo(frasesOriginais, 25);
 
     const board = document.getElementById("bingo-board");
     const message = document.getElementById("message");
@@ -66,7 +87,7 @@
     }
 
     function createBoard() {
-      const selecionadas = shuffle(frasesCasamento).slice(0, 25);
+      const selecionadas = shuffle(frasesCasamento);
       for (let i = 0; i < 25; i++) {
         const cell = document.createElement("div");
         cell.classList.add("cell");
@@ -79,7 +100,7 @@
     function marcarCelula(cell, index) {
       cell.classList.toggle("marked");
       if (verificaBingo()) {
-        message.innerText = "🎉 BINGO  AMOR! 🎉";
+        message.innerText = "🎉 BINGO DE AMOR! 🎉";
       }
     }
 
